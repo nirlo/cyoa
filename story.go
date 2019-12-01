@@ -4,14 +4,14 @@ import (
   "encoding/json"
   "io"
   "net/http"
-  "http/template"
+  "html/template"
 )
 
 func init() {
   tpl = template.Must(template.New("").Parse(defaultHandlerTmpl))
 }
 
-var tpl *template.template
+var tpl *template.Template
 
 var defaultHandlerTmpl = `
 <!DOCTYPE html>
@@ -48,13 +48,13 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
   }
 }
 
-func JsonStory(r io.Reder) (Story, error) {
-  d := json NewDecoder(r)
-  var story cyoa.Story
+func JsonStory(r io.Reader) (Story, error) {
+  d := json.NewDecoder(r)
+  var story Story
   if err := d.Decode(&story); err != nil {
     return nil, err
   }
-  return story, nill
+  return story, nil
 }
 
 type Story map[string]Chapter
@@ -62,7 +62,7 @@ type Story map[string]Chapter
 type Chapter struct {
   Title string `json:"title"`
   Paragraphs []string `json:"story"`
-  Options []option `json:"options"`
+  Options []Option `json:"options"`
 }
 
 type Option struct {

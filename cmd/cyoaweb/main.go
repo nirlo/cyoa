@@ -1,9 +1,13 @@
-package cyoaweb
+package main
 
 import (
   "fmt"
   "flag"
   "net/http"
+  "log"
+  "os"
+
+  "github.com/nirlo/cyoa"
 )
 
 func main() {
@@ -24,5 +28,5 @@ func main() {
 
   h := cyoa.NewHandler(story)
   fmt.Println("starting the server on port: %d\n", *port)
-  log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port))
+  log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), h))
 }
